@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands, tasks
 import random
+import hashlib
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -9,9 +10,10 @@ intents.members = True
 bot = commands.Bot(command_prefix='/', intents=intents)
 
 TARGET_USER_ID = 341269120375062528  # Replace with real ID
+Bot_ID = 'MTM3NDM0NTk5OTE3MDAxNTMwMg.GaNRzU.P4ATRtS8YVrN7_8yNMTJUAZbS2AZwrRrLlqZhY'
 auty = None
 
-@tasks.loop(seconds=60)  # For testing: every 10 seconds
+@tasks.loop(seconds=60)  # For testing: every 60 seconds
 async def send_auty_update():
     global auty
     print("Running auty update task...")
@@ -22,6 +24,9 @@ async def send_auty_update():
         user = await bot.fetch_user(TARGET_USER_ID)
         await user.send(f"🔁 New auty: `{auty}`")
         print(f"✅ Sent auty to {user}")
+        auty_hash = hashlib.md5(auty.encode()).hexdigest()
+        with open("auty.txt", "w") as f:
+            f.write(auty_hash)
     except discord.Forbidden:
         print(f"❌ Cannot DM user {TARGET_USER_ID}")
     except Exception as e:
@@ -32,4 +37,4 @@ async def on_ready():
     print(f'Bot connected as {bot.user}')
     send_auty_update.start()
 
-bot.run('MTM3NDM0NTk5OTE3MDAxNTMwMg.GaNRzU.P4ATRtS8YVrN7_8yNMTJUAZbS2AZwrRrLlqZhY')
+bot.run(Bot_ID) #Bot id

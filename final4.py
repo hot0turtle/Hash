@@ -43,7 +43,11 @@ def autentica():
         if get_name == user.username:
             get_pass = input("Qual a senha?")[:4]
             get_pass_hash = hashlib.md5(get_pass.encode()).hexdigest()
-            if get_pass_hash == user.password:
+            with open("auty.txt", "r") as f:
+                auty = f.read().strip()
+            get_auty = input("Qual o autenticado 2 Fatores?")
+            get_auty_hash = hashlib.md5(get_auty.encode()).hexdigest()
+            if get_pass_hash == user.password and auty == get_auty_hash:
                 print("\nautenticado\n")
                 menu()
                 break
