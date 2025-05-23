@@ -1,3 +1,4 @@
+import os
 import discord
 from discord.ext import commands, tasks
 import random
@@ -9,8 +10,8 @@ intents.members = True
 
 bot = commands.Bot(command_prefix='/', intents=intents)
 
-TARGET_USER_ID = 341269120375062528  # Replace with real ID
-Bot_ID = 'MTM3NDM0NTk5OTE3MDAxNTMwMg.GaNRzU.P4ATRtS8YVrN7_8yNMTJUAZbS2AZwrRrLlqZhY'
+TARGET_USER_ID = os.getenv("DISCORD_ID")  # Replace with real ID
+Bot_ID = os.getenv("DISCORD_BOT_ID")
 auty = None
 
 @tasks.loop(seconds=60)  # For testing: every 60 seconds
